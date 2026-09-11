@@ -15,12 +15,18 @@ export default class ProductDetails {
     }
 
     this.renderProductDetails();
-    document.getElementById('addToCart').addEventListener('click', () => {
-      this.addProductToCart(this.product);
-    });
+
+    const addButton = document.getElementById('addToCart');
+    if (addButton) {
+      addButton.addEventListener('click', this.addToCart.bind(this));
+    }
   }
 
-  addProductToCart(product) {
+  addToCart() {
+    this.addProductToCart(this.product);
+  }
+
+  addProductToCart(product = this.product) {
     const cartItems = getLocalStorage('so-cart') ?? [];
     cartItems.push(product);
     setLocalStorage('so-cart', cartItems);
