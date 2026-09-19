@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import { getLocalStorage, resolvePublicPath, setLocalStorage } from './utils.mjs';
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -15,20 +15,15 @@ export default class ProductDetails {
     }
 
     this.renderProductDetails();
-
-    const addButton = document.getElementById('addToCart');
-    if (addButton) {
-      addButton.addEventListener('click', this.addToCart.bind(this));
+    const addToCartButton = document.getElementById('addToCart');
+    if (addToCartButton) {
+      addToCartButton.addEventListener('click', this.addProductToCart.bind(this));
     }
   }
 
-  addToCart() {
-    this.addProductToCart(this.product);
-  }
-
-  addProductToCart(product = this.product) {
+  addProductToCart() {
     const cartItems = getLocalStorage('so-cart') ?? [];
-    cartItems.push(product);
+    cartItems.push(this.product);
     setLocalStorage('so-cart', cartItems);
   }
 
@@ -40,7 +35,7 @@ export default class ProductDetails {
     const productColor = document.querySelector('.product__color');
     const productDescription = document.querySelector('.product__description');
 
-    if (productImage) productImage.src = this.product.Image;
+    if (productImage) productImage.src = resolvePublicPath(this.product.Image);
     if (productImage) productImage.alt = this.product.Name;
     if (productName) productName.textContent = this.product.Name;
     if (productBrand) productBrand.textContent = this.product.Brand.Name;

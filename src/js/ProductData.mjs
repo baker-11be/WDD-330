@@ -1,15 +1,17 @@
+import { resolvePublicPath } from './utils.mjs';
+
 function convertToJson(res) {
   if (res.ok) {
     return res.json();
   } else {
-    throw new Error("Bad Response");
+    throw new Error('Bad Response');
   }
 }
 
 export default class ProductData {
   constructor(category) {
     this.category = category;
-    this.path = `/json/${this.category}.json`;
+    this.path = resolvePublicPath(`/json/${this.category}.json`);
   }
   getData() {
     return fetch(this.path)

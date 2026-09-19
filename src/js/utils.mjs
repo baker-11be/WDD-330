@@ -31,6 +31,22 @@ export function getParam(param) {
   return urlParams.get(param);
 }
 
+export function resolvePublicPath(path) {
+  if (!path || path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+
+  const pageIsNested = window.location.pathname.includes('/product_pages/');
+  const basePrefix = pageIsNested ? '../public/' : './public/';
+  const cleanedPath = path
+    .replace(/^\/+/, '')
+    .replace(/^public\//, '')
+    .replace(/^(\.\.\/)+/, '')
+    .replace(/^\.\//, '');
+
+  return `${basePrefix}${cleanedPath}`;
+}
+
 export function renderListWithTemplate(
   templateFn,
   parentElement,
@@ -44,4 +60,39 @@ export function renderListWithTemplate(
 
   const htmlStrings = list.map(templateFn);
   parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+}
+
+export function renderWithTemplate(template, parentElement, data, callback) {
+  if (!parentElement) return;
+
+  parentElement.innerHTML = template;
+
+  if (callback) {
+    callback(data);
+  }
+}
+
+export async function loadTemplate(path) {
+  const response = await fetch(path);
+  const template = await response.text();
+  return template;
+}
+
+export async function loadHeaderFooter() {
+  const currentPath = window.location.pathname;
+  const partialPath =
+    currentPath.includes('/cart/') ||
+    currentPath.includes('/checkout/') ||
+    currentPath.includes('/product_pages/')
+      ? '../public/partials/'
+      : './public/partials/';
+
+  const headerTemplate = await loadTemplate(`${partialPath}header.html`);
+  const footerTemplate = await loadTemplate(`${partialPath}footer.html`);
+
+  const headerElement = document.querySelector('#main-header');
+  const footerElement = document.querySelector('#main-footer');
+
+  renderWithTemplate(headerTemplate, headerElement);
+  renderWithTemplate(footerTemplate, footerElement);
 }
