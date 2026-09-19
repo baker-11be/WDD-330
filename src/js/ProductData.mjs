@@ -1,4 +1,7 @@
-const baseURL = import.meta.env.VITE_SERVER_URL;
+const baseURL =
+  typeof import.meta !== 'undefined' && import.meta.env
+    ? import.meta.env.VITE_SERVER_URL
+    : 'https://wdd330-backend.onrender.com/';
 
 function convertToJson(res) {
   if (res.ok) {
@@ -19,5 +22,21 @@ export default class ProductData {
     const response = await fetch(`${baseURL}product/${id}`);
     const data = await convertToJson(response);
     return data.Result;
+  }
+
+  async searchProducts(query, category = 'tents') {
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) {
+      return [];
+    }
+
+    const items = await this.getData(category);
+    const searchString = trimmedQuery.toLowerCase();
+
+    return items.filter((product) => {
+      const name = product.Name?.toLowerCase() ?? '';
+      const description = product.DescriptionHtmlSimple?.toLowerCase() ?? '';
+      return name.includes(searchString) || description.includes(searchString);
+    });
   }
 }

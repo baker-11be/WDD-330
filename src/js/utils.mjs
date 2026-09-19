@@ -76,6 +76,22 @@ export function renderWithTemplate(template, parentElement, data, callback) {
   }
 }
 
+export function setupSearchForm() {
+  const searchForm = document.getElementById('search-form');
+  const searchInput = document.getElementById('search-input');
+
+  if (!searchForm || !searchInput) return;
+
+  searchForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const query = searchInput.value.trim();
+
+    if (!query) return;
+
+    window.location.href = `/product_listing/index.html?query=${encodeURIComponent(query)}`;
+  });
+}
+
 export async function loadTemplate(path) {
   const response = await fetch(path);
   const template = await response.text();
@@ -100,4 +116,5 @@ export async function loadHeaderFooter() {
 
   renderWithTemplate(headerTemplate, headerElement);
   renderWithTemplate(footerTemplate, footerElement);
+  setupSearchForm();
 }
