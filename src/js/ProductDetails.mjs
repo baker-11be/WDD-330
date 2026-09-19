@@ -1,4 +1,4 @@
-import { getLocalStorage, resolvePublicPath, setLocalStorage } from './utils.mjs';
+import { getLocalStorage, setLocalStorage } from './utils.mjs';
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -35,12 +35,12 @@ export default class ProductDetails {
     const productColor = document.querySelector('.product__color');
     const productDescription = document.querySelector('.product__description');
 
-    if (productImage) productImage.src = resolvePublicPath(this.product.Image);
+    if (productImage) productImage.src = this.product.Images.PrimaryLarge;
     if (productImage) productImage.alt = this.product.Name;
     if (productName) productName.textContent = this.product.Name;
     if (productBrand) productBrand.textContent = this.product.Brand.Name;
     if (productPrice) productPrice.textContent = `$${this.product.FinalPrice}`;
     if (productColor) productColor.textContent = this.product.Colors[0].ColorName;
-    if (productDescription) productDescription.textContent = this.product.DescriptionHtmlSimple;
+    if (productDescription) productDescription.innerHTML = this.product.DescriptionHtmlSimple;
   }
 }
