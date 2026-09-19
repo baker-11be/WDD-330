@@ -36,7 +36,11 @@ export function resolvePublicPath(path) {
     return path;
   }
 
-  const pageIsNested = window.location.pathname.includes('/product_pages/');
+  const pageIsNested =
+    window.location.pathname.includes('/product_pages/') ||
+    window.location.pathname.includes('/product_listing/') ||
+    window.location.pathname.includes('/cart/') ||
+    window.location.pathname.includes('/checkout/');
   const basePrefix = pageIsNested ? '../public/' : './public/';
   const cleanedPath = path
     .replace(/^\/+/, '')
@@ -83,7 +87,8 @@ export async function loadHeaderFooter() {
   const partialPath =
     currentPath.includes('/cart/') ||
     currentPath.includes('/checkout/') ||
-    currentPath.includes('/product_pages/')
+    currentPath.includes('/product_pages/') ||
+    currentPath.includes('/product_listing/')
       ? '../public/partials/'
       : './public/partials/';
 

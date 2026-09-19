@@ -9,10 +9,11 @@ function renderCartContents() {
 }
 
 function cartItemTemplate(item) {
+  const imageSrc = item.Images?.PrimaryMedium || item.Image || '';
   const newItem = `<li class="cart-card divider">
   <a href="#" class="cart-card__image">
     <img
-      src="${resolvePublicPath(item.Image)}"
+      src="${resolvePublicPath(imageSrc)}"
       alt="${item.Name}"
     />
   </a>

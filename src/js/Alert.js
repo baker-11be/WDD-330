@@ -1,7 +1,9 @@
+import { resolvePublicPath } from './utils.mjs';
+
 /** Displays announcement messages configured in the alerts JSON file. */
 export default class Alert {
   constructor(
-    alertSource = "/json/alerts.json",
+    alertSource = resolvePublicPath('/json/alerts.json'),
     parentElement = document.querySelector("main"),
   ) {
     this.alertSource = alertSource;
