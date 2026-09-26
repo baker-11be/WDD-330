@@ -55,15 +55,15 @@ export function renderListWithTemplate(
   templateFn,
   parentElement,
   list,
-  position = "afterbegin",
+  position = 'afterbegin',
   clear = false,
 ) {
   if (clear) {
-    parentElement.innerHTML = "";
+    parentElement.innerHTML = '';
   }
 
   const htmlStrings = list.map(templateFn);
-  parentElement.insertAdjacentHTML(position, htmlStrings.join(""));
+  parentElement.insertAdjacentHTML(position, htmlStrings.join(''));
 }
 
 export function renderWithTemplate(template, parentElement, data, callback) {
