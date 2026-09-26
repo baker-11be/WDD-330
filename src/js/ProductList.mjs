@@ -28,9 +28,17 @@ export default class ProductList {
   }
 
   async init() {
-    const list = await this.dataSource.getData(this.category);
-    this.renderList(list);
-    this.updateTitle();
+    try {
+      const list = await this.dataSource.getData(this.category);
+      this.renderList(list);
+      this.updateTitle();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Products could not be loaded.', error);
+      if (this.listElement) {
+        this.listElement.innerHTML = '<li class="product-card">Sorry, we could not load these products right now.</li>';
+      }
+    }
   }
 
   updateTitle() {

@@ -32,23 +32,25 @@ export function getParam(param) {
 }
 
 export function resolvePublicPath(path) {
-  if (!path || path.startsWith('http://') || path.startsWith('https://')) {
+  if (
+    !path ||
+    path.startsWith('http://') ||
+    path.startsWith('https://') ||
+    path.startsWith('data:')
+  ) {
     return path;
   }
 
-  const pageIsNested =
-    window.location.pathname.includes('/product_pages/') ||
-    window.location.pathname.includes('/product_listing/') ||
-    window.location.pathname.includes('/cart/') ||
-    window.location.pathname.includes('/checkout/');
-  const basePrefix = pageIsNested ? '../public/' : './public/';
+  // Files in the Vite 'public' directory are published at the site root, so
+  // they always need a root-absolute URL. This works in the dev server, in
+  // 'vite preview' and on the hosting service (Render).
   const cleanedPath = path
     .replace(/^\/+/, '')
-    .replace(/^public\//, '')
     .replace(/^(\.\.\/)+/, '')
-    .replace(/^\.\//, '');
+    .replace(/^\.\//, '')
+    .replace(/^public\//, '');
 
-  return `${basePrefix}${cleanedPath}`;
+  return `/${cleanedPath}`;
 }
 
 export function renderListWithTemplate(
@@ -94,27 +96,29 @@ export function setupSearchForm() {
 
 export async function loadTemplate(path) {
   const response = await fetch(path);
-  const template = await response.text();
-  return template;
+
+  if (!response.ok) {
+    throw new Error(`Unable to load template ${path} (${response.status})`);
+  }
+
+  return response.text();
 }
 
 export async function loadHeaderFooter() {
-  const currentPath = window.location.pathname;
-  const partialPath =
-    currentPath.includes('/cart/') ||
-    currentPath.includes('/checkout/') ||
-    currentPath.includes('/product_pages/') ||
-    currentPath.includes('/product_listing/')
-      ? '../public/partials/'
-      : './public/partials/';
+  try {
+    // The partials live in the Vite public directory, which is published at
+    // the site root, so they are requested with root-absolute URLs.
+    const headerTemplate = await loadTemplate('/partials/header.html');
+    const footerTemplate = await loadTemplate('/partials/footer.html');
 
-  const headerTemplate = await loadTemplate(`${partialPath}header.html`);
-  const footerTemplate = await loadTemplate(`${partialPath}footer.html`);
+    const headerElement = document.querySelector('#main-header');
+    const footerElement = document.querySelector('#main-footer');
 
-  const headerElement = document.querySelector('#main-header');
-  const footerElement = document.querySelector('#main-footer');
-
-  renderWithTemplate(headerTemplate, headerElement);
-  renderWithTemplate(footerTemplate, footerElement);
-  setupSearchForm();
+    renderWithTemplate(headerTemplate, headerElement);
+    renderWithTemplate(footerTemplate, footerElement);
+    setupSearchForm();
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Header and footer could not be loaded.', error);
+  }
 }

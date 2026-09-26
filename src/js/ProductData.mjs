@@ -1,7 +1,8 @@
+// VITE_SERVER_URL is only available when it is defined at build time (a .env
+// file locally, or the environment variables of the hosting service). Without
+// a fallback the requests would be sent to 'undefinedproducts/search/...'.
 const baseURL =
-  typeof import.meta !== 'undefined' && import.meta.env
-    ? import.meta.env.VITE_SERVER_URL
-    : 'https://wdd330-backend.onrender.com/';
+  import.meta.env.VITE_SERVER_URL || 'https://wdd330-backend-osp8.onrender.com/';
 
 function convertToJson(res) {
   if (res.ok) {
