@@ -13,18 +13,18 @@ if (listElement) {
   const title = document.querySelector('#product-listing-title');
 
   const renderSearchResults = async () => {
+    const productList = new ProductList(category, dataSource, listElement);
+
     if (!query) {
-      const productList = new ProductList(category, dataSource, listElement);
       productList.init();
       return;
     }
 
     if (title) {
-      title.textContent = `Search Results: "${query}"`;
+      title.textContent = 'Search Results: "' + query + '"';
     }
 
     const results = await dataSource.searchProducts(query, category);
-    const productList = new ProductList(category, dataSource, listElement);
     productList.renderList(results);
   };
 
