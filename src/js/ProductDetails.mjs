@@ -27,11 +27,23 @@ export default class ProductDetails {
     setLocalStorage('so-cart', cartItems);
   }
 
+  getDiscountPercent() {
+    const listPrice = Number(this.product?.ListPrice ?? 0);
+    const finalPrice = Number(this.product?.FinalPrice ?? 0);
+
+    if (!listPrice || !finalPrice || finalPrice >= listPrice) {
+      return 0;
+    }
+
+    return Math.round(((listPrice - finalPrice) / listPrice) * 100);
+  }
+
   renderProductDetails() {
     const productImage = document.querySelector('.product-detail img');
     const productName = document.querySelector('.product-detail h2');
     const productBrand = document.querySelector('.product-detail h3');
     const productPrice = document.querySelector('.product-card__price');
+    const productDiscount = document.querySelector('.product__discount');
     const productColor = document.querySelector('.product__color');
     const productDescription = document.querySelector('.product__description');
 
@@ -39,7 +51,27 @@ export default class ProductDetails {
     if (productImage) productImage.alt = this.product.Name;
     if (productName) productName.textContent = this.product.Name;
     if (productBrand) productBrand.textContent = this.product.Brand.Name;
-    if (productPrice) productPrice.textContent = `$${this.product.FinalPrice}`;
+
+    const discountPercent = this.getDiscountPercent();
+    if (productPrice) {
+      const listPrice = Number(this.product.ListPrice ?? 0);
+      if (listPrice > 0 && discountPercent > 0) {
+        productPrice.innerHTML = `<span class="product-card__price--list">$${listPrice.toFixed(2)}</span> $${this.product.FinalPrice.toFixed(2)}`;
+      } else {
+        productPrice.textContent = `$${Number(this.product.FinalPrice).toFixed(2)}`;
+      }
+    }
+
+    if (productDiscount) {
+      if (discountPercent > 0) {
+        productDiscount.textContent = `Save ${discountPercent}%`;
+        productDiscount.hidden = false;
+      } else {
+        productDiscount.textContent = '';
+        productDiscount.hidden = true;
+      }
+    }
+
     if (productColor) productColor.textContent = this.product.Colors[0].ColorName;
     if (productDescription) productDescription.innerHTML = this.product.DescriptionHtmlSimple;
   }
