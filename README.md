@@ -1,24 +1,18 @@
-# BYU-Pathway Worldwide Online
+# CineMatch
 
-## WDD 330 - Web Frontend Development II
+CineMatch helps you discover trending movies, search by title, filter by genre, and keep a personal watchlist. Movie discovery uses TMDB; the detail dialog can also show cast, awards, and IMDb ratings from OMDb.
 
-### ⛺ SleepOutside Starter Code
+## Setup
 
-- This repository is the start of the SleepOutside web application project for WDD 330. The repository contains branches which are checkpoints for the team and individual assignments throughout the course.
+1. Install dependencies with `npm install`.
+2. In PowerShell, run `Copy-Item src/.env.sample src/.env.local`.
+3. Open `src/.env.local` and replace `your_tmdb_api_key` with your TMDB API key. Leave `VITE_OMDB_API_KEY` blank unless you also have an OMDb key for cast, awards, and IMDb details.
+4. Start or restart the app with `npm run start` and open the Vite URL shown in the terminal. Vite reads `.env.local` when the server starts.
 
-- <https://byui-cse.github.io/wdd330-ww-course/week01/team.html>
+Vite exposes `VITE_` variables in browser code, so treat these as public client-side keys and use provider restrictions where available. The app can browse with a TMDB API key (`VITE_TMDB_API_KEY`) or TMDB read access token (`VITE_TMDB_ACCESS_TOKEN`). Keep `src/.env.local` on your machine; Git ignores it.
 
-### Prerequisites
+## Checks
 
-- You must have Node installed to run the following commands.
-[WDD 330 Setup Environment](https://byui-cse.github.io/wdd330-ww-course/intro/)
-
-### Common Workflow Commands
-
-- `npm run lint` to run ESLint against your code to find errors.
-- `npm run format` to run Prettier to automatically format your code.
-- `npm run start` starts up a local server and updates on any JS or CSS/SCSS
-- `npm run build` to build final files when you are ready to turn in.
-
----
-_BYU-Pathway Worldwide improves lives through access to spiritually based, online affordable higher education. Its mission is to develop disciples of Jesus Christ who are leaders in their homes, the Church, and their communities._
+- `npm run lint` runs ESLint.
+- `npm test` runs the existing Node tests.
+- `npm run build` creates the production build.
