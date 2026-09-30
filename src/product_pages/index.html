@@ -13,7 +13,11 @@
     <header id="main-header" class="divider"></header>
 
     <main class="divider">
-      <section class="product-detail">
+      <p class="product-status" id="product-loading" role="status">Loading product details...</p>
+      <p class="product-status product-status--error" id="product-error" role="alert" hidden>
+        Product details could not be loaded. Return to the product list and try again.
+      </p>
+      <section class="product-detail" id="product-detail" hidden>
         <h3>Brand</h3>
         <h2 class="divider">Product Name</h2>
         <img class="divider" src="" alt="Product image" />
@@ -22,8 +26,20 @@
         <p class="product__color"></p>
         <p class="product__description"></p>
         <div class="product-detail__add">
-          <button id="addToCart" data-id="">Add to Cart</button>
+          <button id="addToCart" data-id="" type="button" disabled>Add to Cart</button>
         </div>
+      </section>
+      <section class="product-comments" aria-labelledby="product-comments-heading" hidden>
+        <h2 id="product-comments-heading">Product Comments</h2>
+        <form class="comment-form" id="comment-form">
+          <label for="comment-author">Your name</label>
+          <input id="comment-author" name="author" maxlength="60" autocomplete="name" placeholder="Guest" />
+          <label for="comment-body">Comment</label>
+          <textarea id="comment-body" name="body" maxlength="1000" required></textarea>
+          <button type="submit">Post comment</button>
+        </form>
+        <p class="comment-empty" id="comment-empty">No comments yet. Be the first to share your thoughts.</p>
+        <ul class="comment-list" id="product-comments-list" aria-live="polite"></ul>
       </section>
     </main>
 
