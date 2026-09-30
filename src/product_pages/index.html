@@ -25,6 +25,18 @@
           <button id="addToCart" data-id="">Add to Cart</button>
         </div>
       </section>
+      <section class="product-comments" aria-labelledby="comments-heading">
+        <h2 id="comments-heading">Product Comments</h2>
+        <form id="comment-form" class="comment-form">
+          <label for="comment-author">Your name (optional)</label>
+          <input id="comment-author" name="author" maxlength="60" placeholder="Guest" autocomplete="name" />
+          <label for="comment-text">Leave a comment</label>
+          <textarea id="comment-text" name="comment" required maxlength="1000" placeholder="Write your thoughts..."></textarea>
+          <button type="submit" id="submit-comment">Post Comment</button>
+        </form>
+        <p id="comments-empty" class="comments-empty" hidden>No comments yet. Be the first to add one!</p>
+        <ul id="comments-list" class="comments-list" aria-live="polite"></ul>
+      </section>
     </main>
 
     <footer id="main-footer"></footer>

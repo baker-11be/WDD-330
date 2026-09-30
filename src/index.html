@@ -3,107 +3,94 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Discover movies, find your next favorite, and keep a personal watchlist with CineMatch." />
-    <meta name="keywords" content="movies, movie discovery, watchlist, film recommendations" />
-    <meta name="theme-color" content="#121212" />
-    <title>CineMatch | Find your next favorite</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/cinematch.css" />
+    <title>Sleep Outside | Home</title>
+    <link rel="stylesheet" href="/css/style.css" />
     <script src="/js/main.js" type="module"></script>
   </head>
+
   <body>
-    <header class="site-header">
-      <a class="wordmark" href="/" aria-label="CineMatch home"><span class="wordmark-mark" aria-hidden="true">C</span><span>CineMatch</span></a>
-      <nav class="view-nav" aria-label="Movie lists">
-        <button class="nav-button is-active" type="button" data-view="discover" aria-pressed="true">Discover</button>
-        <button class="nav-button" type="button" data-view="watchlist" aria-pressed="false">Watchlist <span class="nav-count" id="watchlist-count">0</span></button>
-        <button class="nav-button" type="button" data-view="watched" aria-pressed="false">Watched</button>
-      </nav>
-      <span class="header-note">YOUR NEXT MOVIE NIGHT, SORTED</span>
-    </header>
-
-    <main>
-      <section class="spotlight" aria-labelledby="spotlight-title">
-        <img class="spotlight-image" id="spotlight-image" alt="" />
-        <div class="spotlight-shade"></div>
-        <div class="spotlight-copy">
-          <p class="eyebrow"><span class="live-dot"></span> TONIGHT'S FEATURE</p>
-          <h1 id="spotlight-title">Find your next favorite.</h1>
-          <p class="spotlight-overview" id="spotlight-overview">A fresh lineup of movies worth staying in for.</p>
-          <div class="spotlight-meta" id="spotlight-meta" aria-label="Featured movie information"></div>
-          <button class="button button-light" type="button" id="spotlight-details" hidden>Explore feature <span aria-hidden="true">&#8594;</span></button>
+    <header id="main-header" class="divider"></header>
+    <main class="divider">
+      <div class="hero">
+        <img
+          src="./public/images/banner-sm.jpg"
+          srcset="
+            ./public/images/banner-sm.jpg 500w,
+            ./public/images/banner.jpg
+          "
+          alt="image of a high mountain lake"
+        />
+        <div class="logo logo--square">
+          <img
+            src="./public/images/noun_Tent_2517.svg"
+            alt="tent image for logo"
+          />
+          <div>Sleep<span class="highlight">Outside</span></div>
         </div>
-        <span class="spotlight-index" aria-hidden="true">01 <span>/</span> CINEMATCH</span>
-      </section>
-
-      <section class="discovery" aria-label="Movie discovery">
-        <div class="control-row">
-          <form class="search-form" id="search-form" role="search">
-            <label class="visually-hidden" for="search-input">Search movies</label>
-            <span class="search-icon" aria-hidden="true">&#9906;</span>
-            <input id="search-input" type="search" placeholder="Search movies, titles, years..." autocomplete="off" />
-            <button class="search-submit" type="submit">Search</button>
-          </form>
-          <div class="filter-group">
-            <label class="visually-hidden" for="genre-filter">Filter by genre</label>
-            <select id="genre-filter" aria-label="Filter by genre">
-              <option value="">All genres</option>
-            </select>
-            <label class="visually-hidden" for="sort-order">Sort movies</label>
-            <select id="sort-order" aria-label="Sort movies">
-              <option value="popularity">Popular</option>
-              <option value="rating">Highest rated</option>
-              <option value="newest">Newest</option>
-            </select>
-            <button class="button button-surprise" id="surprise-button" type="button"><span aria-hidden="true">&#10022;</span> Surprise me</button>
-          </div>
+        <div class="mission">
+          <p>
+            Our mission is to provide you with everything you need to sleep
+            outside comfortably at an affordable price.
+          </p>
         </div>
+      </div>
 
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow" id="results-kicker">THE DAILY CUT</p>
-            <h2 id="results-title">Trending now</h2>
-          </div>
-          <p class="result-count" id="result-count" aria-live="polite"></p>
-        </div>
-
-        <p class="status-message" id="app-status" role="status" aria-live="polite" hidden></p>
-        <section class="movie-grid" id="movie-grid" aria-label="Movies"></section>
-        <div class="empty-state" id="empty-state" hidden>
-          <span class="empty-mark" aria-hidden="true">C</span>
-          <h3 id="empty-title">No movies here yet</h3>
-          <p id="empty-copy">Try a different search or filter.</p>
+      <section class="categories">
+        <h2>Shop by Category</h2>
+        <div class="category-list">
+          <a
+            class="category-card"
+            href="product_listing/index.html?category=tents"
+          >
+            <svg aria-hidden="true" viewBox="0 0 64 64">
+              <path
+                d="M6 50 24 18l8 12 8-12 18 32"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="3"
+              />
+              <path d="M24 18h16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" />
+            </svg>
+            <h3>Tents</h3>
+          </a>
+          <a
+            class="category-card"
+            href="product_listing/index.html?category=backpacks"
+          >
+            <svg aria-hidden="true" viewBox="0 0 64 64">
+              <path d="M22 22c0-6 4-10 10-10s10 4 10 10" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" />
+              <rect x="16" y="18" width="32" height="34" rx="10" fill="none" stroke="currentColor" stroke-width="3" />
+              <path d="M22 30h20M24 40h16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" />
+            </svg>
+            <h3>Backpacks</h3>
+          </a>
+          <a
+            class="category-card"
+            href="product_listing/index.html?category=sleeping-bags"
+          >
+            <svg aria-hidden="true" viewBox="0 0 64 64">
+              <path d="M22 14c-4 0-8 4-8 8v24c0 4 4 8 8 8h20c4 0 8-4 8-8V22c0-4-4-8-8-8Z" fill="none" stroke="currentColor" stroke-width="3" />
+              <circle cx="25" cy="22" r="4" fill="none" stroke="currentColor" stroke-width="3" />
+              <path d="M18 34c8 5 20 5 28 0" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" />
+            </svg>
+            <h3>Sleeping Bags</h3>
+          </a>
+          <a
+            class="category-card"
+            href="product_listing/index.html?category=hammocks"
+          >
+            <svg aria-hidden="true" viewBox="0 0 64 64">
+              <path d="M10 20v12M54 20v12M10 20h8M46 20h8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" />
+              <path d="M10 32c7 10 14 14 22 14s15-4 22-14" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" />
+              <path d="M10 32c8 4 16 6 22 6s14-2 22-6" fill="none" stroke="currentColor" stroke-dasharray="4 4" stroke-linecap="round" stroke-width="3" />
+            </svg>
+            <h3>Hammocks</h3>
+          </a>
         </div>
       </section>
     </main>
-
-    <footer class="site-footer">
-      <a class="wordmark wordmark-small" href="/" aria-label="CineMatch home"><span class="wordmark-mark" aria-hidden="true">C</span><span>CineMatch</span></a>
-      <p>Made for the love of a good story.</p>
-      <p class="attribution">Movie data provided by TMDB. Additional details by OMDb.</p>
-    </footer>
-
-    <dialog class="movie-dialog" id="movie-dialog" aria-labelledby="dialog-title">
-      <button class="dialog-close" type="button" aria-label="Close movie details">&#10005;</button>
-      <div class="dialog-backdrop"><img id="dialog-backdrop" alt="" /></div>
-      <div class="dialog-content">
-        <div class="dialog-poster-wrap"><img class="dialog-poster" id="dialog-poster" alt="" /></div>
-        <div class="dialog-copy">
-          <p class="eyebrow" id="dialog-kicker">MOVIE DETAILS</p>
-          <h2 id="dialog-title"></h2>
-          <p class="dialog-meta" id="dialog-meta"></p>
-          <p class="dialog-overview" id="dialog-overview"></p>
-          <div class="extra-details" id="extra-details" aria-live="polite"></div>
-          <div class="dialog-actions">
-            <button class="button button-primary" type="button" id="dialog-watchlist">Add to watchlist</button>
-            <button class="button button-quiet" type="button" id="dialog-watched">Mark watched</button>
-          </div>
-        </div>
-      </div>
-    </dialog>
-
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <footer id="main-footer"></footer>
   </body>
 </html>

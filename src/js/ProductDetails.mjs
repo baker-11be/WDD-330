@@ -1,4 +1,5 @@
 import { getLocalStorage, setLocalStorage } from './utils.mjs';
+import Comments from './Comments.js';
 
 export default class ProductDetails {
   constructor(productId, dataSource) {
@@ -14,17 +15,70 @@ export default class ProductDetails {
       return;
     }
 
+    this.comments = new Comments(this.product.Category);
     this.renderProductDetails();
     const addToCartButton = document.getElementById('addToCart');
     if (addToCartButton) {
       addToCartButton.addEventListener('click', this.addProductToCart.bind(this));
     }
+
+    document
+      .querySelector('#comment-form')
+      ?.addEventListener('submit', this.handleCommentSubmit.bind(this));
+    this.renderComments();
   }
 
   addProductToCart() {
     const cartItems = getLocalStorage('so-cart') ?? [];
     cartItems.push(this.product);
     setLocalStorage('so-cart', cartItems);
+  }
+
+  handleCommentSubmit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const productKey = this.product.Id || this.productId;
+    const author = form.elements.author.value;
+    const commentText = form.elements.comment.value;
+
+    if (!this.comments.addComment(productKey, commentText, author)) return;
+
+    form.reset();
+    this.renderComments();
+  }
+
+  renderComments() {
+    const commentsList = document.querySelector('#comments-list');
+    const emptyMessage = document.querySelector('#comments-empty');
+    if (!commentsList || !emptyMessage || !this.comments) return;
+
+    const productKey = this.product.Id || this.productId;
+    const comments = this.comments.getComments(productKey);
+    emptyMessage.hidden = comments.length > 0;
+    commentsList.replaceChildren(...comments.map((comment) => {
+      const listItem = document.createElement('li');
+      listItem.className = 'product-comment';
+
+      const metadata = document.createElement('div');
+      metadata.className = 'product-comment__metadata';
+
+      const author = document.createElement('strong');
+      author.textContent = comment.author;
+
+      const date = document.createElement('time');
+      const parsedDate = new Date(comment.date);
+      if (!Number.isNaN(parsedDate.getTime())) {
+        date.dateTime = parsedDate.toISOString();
+        date.textContent = parsedDate.toLocaleDateString();
+      }
+
+      const content = document.createElement('p');
+      content.textContent = comment.content;
+
+      metadata.append(author, date);
+      listItem.append(metadata, content);
+      return listItem;
+    }));
   }
 
   getDiscountPercent() {
