@@ -269,6 +269,13 @@ button {
   letter-spacing: 0.03em;
 }
 
+/* The rule above sets display: inline-block, which otherwise overrides the
+   user-agent [hidden] { display: none } rule and leaves an empty green pill
+   on products that are not discounted. */
+.product__discount[hidden] {
+  display: none;
+}
+
 .product-detail {
   padding: 1em;
   max-width: 500px;
