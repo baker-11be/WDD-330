@@ -27,15 +27,25 @@ export default class ProductDetails {
     setLocalStorage('so-cart', cartItems);
   }
 
-  getDiscountPercent() {
+  // The original ("was") price. Items in this catalog are discounted from the
+  // manufacturer's SuggestedRetailPrice, while ListPrice normally equals
+  // FinalPrice. Falling back to ListPrice keeps any data that only has a list
+  // price working exactly as it did before.
+  getWasPrice() {
+    const suggestedRetailPrice = Number(this.product?.SuggestedRetailPrice ?? 0);
     const listPrice = Number(this.product?.ListPrice ?? 0);
+    return Math.max(suggestedRetailPrice, listPrice);
+  }
+
+  getDiscountPercent() {
+    const wasPrice = this.getWasPrice();
     const finalPrice = Number(this.product?.FinalPrice ?? 0);
 
-    if (!listPrice || !finalPrice || finalPrice >= listPrice) {
+    if (!wasPrice || !finalPrice || finalPrice >= wasPrice) {
       return 0;
     }
 
-    return Math.round(((listPrice - finalPrice) / listPrice) * 100);
+    return Math.round(((wasPrice - finalPrice) / wasPrice) * 100);
   }
 
   renderProductDetails() {
@@ -53,10 +63,10 @@ export default class ProductDetails {
     if (productBrand) productBrand.textContent = this.product.Brand.Name;
 
     const discountPercent = this.getDiscountPercent();
+    const wasPrice = this.getWasPrice();
     if (productPrice) {
-      const listPrice = Number(this.product.ListPrice ?? 0);
-      if (listPrice > 0 && discountPercent > 0) {
-        productPrice.innerHTML = `<span class="product-card__price--list">$${listPrice.toFixed(2)}</span> $${this.product.FinalPrice.toFixed(2)}`;
+      if (wasPrice > 0 && discountPercent > 0) {
+        productPrice.innerHTML = `<span class="product-card__price--list">$${wasPrice.toFixed(2)}</span> $${Number(this.product.FinalPrice).toFixed(2)}`;
       } else {
         productPrice.textContent = `$${Number(this.product.FinalPrice).toFixed(2)}`;
       }
